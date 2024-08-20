@@ -1,7 +1,31 @@
+//-------------------------------------------------------------
+//! Solves a square equation using ax^2 + bx + c= 0
+//!
+//! @param [in] a a-coefficient (copied)
+//! @param [in] b b-coefficient (copied)
+//! @param [in] c c-coefficient (copied)
+//! @param [out] x1 The 1st (and sometimes only) root (pointer)
+//! @param [out] x2 The 2nd root (pointer)
+//!
+//! @return Number of roots, roots
+//!
+//! @note In case of infinite number of roots,
+//! returns INF.
+//-------------------------------------------------------------
+
+
+
+
 #include <stdio.h>
 #include <math.h>
 
 int sqrslv(double a, double b, double c, double *x1, double *x2) {
+
+ assert (std::isfinite (a));
+ assert (std::isfinite (b));
+ assert (std::isfinite (c));
+
+
  double D;
  D = b*b - 4*a*c;
 
@@ -47,8 +71,7 @@ int main() {
  double x1, x2;
  x1 = x2 = 0;
 
- int var;
- var = sqrslv(a, b, c, &x1, &x2);
+ int var = sqrslv(a, b, c, &x1, &x2);
 
 
  switch(var) {
@@ -62,7 +85,7 @@ int main() {
     case 2:  printf("ДВА КОРНЯ РОДНОЙ %g и %g", x1, x2);
              break;
 
-    case 'INF':  printf("БЕСКОНЕЧНОСТЬ КОРНЕЙ - НЕ ПРЕДЕЛ(предел)");
+    case 'INF':  printf("INFIMNOGA ROOTS");
                  break;
 
     default: printf("МЫ НАПОРТАЧИЛИ");
