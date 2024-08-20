@@ -1,3 +1,8 @@
+#include <stdio.h>
+#include <math.h>
+
+int sqrslv(double a, double b, double c, double *x1, double *x2) {
+
 //-------------------------------------------------------------
 //! Solves a square equation using ax^2 + bx + c= 0
 //!
@@ -15,15 +20,6 @@
 
 
 
-
-#include <stdio.h>
-#include <math.h>
-
-int sqrslv(double a, double b, double c, double *x1, double *x2) {
-
- assert (std::isfinite (a));
- assert (std::isfinite (b));
- assert (std::isfinite (c));
 
 
  double D;
@@ -56,17 +52,17 @@ int main() {
 
  double a, b, c;
 
- printf("enter factor a\n");
+ printf("#enter factor a\n");
  scanf("%lg", &a);
- printf("a = %g\n", a);
+ printf("#a = %g\n", a);
 
- printf("enter factor b\n");
+ printf("#enter factor b\n");
  scanf("%lg", &b);
  printf("b = %g\n", b);
 
- printf("enter factor c\n");
+ printf("#enter factor c\n");
  scanf("%lg", &c);
- printf("c = %g\n", c);
+ printf("#c = %g\n", c);
 
  double x1, x2;
  x1 = x2 = 0;
@@ -76,19 +72,21 @@ int main() {
 
  switch(var) {
 
-    case 0:  printf("СОРИ БРАТАНЧИК КОРНЕЙ НЕТ");
+    case 0:  printf("#СОРИ БРАТАНЧИК КОРНЕЙ НЕТ");
              break;
 
-    case 1:  printf("ОПАААА КОРЕНЬ ОДИН И ЭТО %g", x1);
+    case 1:  printf("#ОПАААА КОРЕНЬ ОДИН И ЭТО ");
+             printf("%g", x1);
              break;
 
-    case 2:  printf("ДВА КОРНЯ РОДНОЙ %g и %g", x1, x2);
+    case 2:  printf("#ДВА КОРНЯ РОДНОЙ ");
+             printf("%g or %g", x1, x2);
              break;
 
-    case 'INF':  printf("INFIMNOGA ROOTS");
+    case 'INF':  printf("#INFIMNOGA ROOTS");
                  break;
 
-    default: printf("МЫ НАПОРТАЧИЛИ");
+    default: printf("#МЫ НАПОРТАЧИЛИ");
              break;
 
  }
