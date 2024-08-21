@@ -25,13 +25,13 @@ struct coef {
 
 enum RootNumber {
     ZERO_ROOTS = 0,
-    ONE        = 1,
-    TWO        = 2,
+    ONE_ROOT   = 1,
+    TWO_ROOTS  = 2,
     INF_ROOTS  = 3,
 };
 
-
-RootNumber square_solve(struct coef coefficient, double *x1, double *x2) {
+                                                                                                    //todo
+RootNumber square_solve(struct coef coefficient, double *x1, double *x2) {                          //прототипы функций
     double D = coefficient.b*coefficient.b - 4*coefficient.a*coefficient.c;
 
     if (coefficient.a == 0 && coefficient.b == 0) {
@@ -39,7 +39,7 @@ RootNumber square_solve(struct coef coefficient, double *x1, double *x2) {
     }
     if (coefficient.a == 0 && coefficient.b != 0) {
         *x1 = -coefficient.c/coefficient.b;
-        return ONE;
+        return ONE_ROOT;
     }
     if (D < 0) {
         return ZERO_ROOTS;
@@ -49,26 +49,23 @@ RootNumber square_solve(struct coef coefficient, double *x1, double *x2) {
     *x2 = (-coefficient.b - root_D)/(2*coefficient.a);
 
     if (*x1 == *x2) {
-        return ONE;
+        return ONE_ROOT;
     }
-    return TWO;
+    return TWO_ROOTS;
 }
 
 
-struct coef CoefRead() {
+struct coef coef_read(void) {
 
     int coef_count = 0;
-    char cur_ch = 0;
-    double a_temp = 0, b_temp = 0, c_temp = 0;
+    int cur_ch = 0;
+
     while(1) {
-        double a_temp = 0, b_temp = 0, c_temp = 0;
-        coef_count = scanf("%lg %lg %lg", &a_temp, &b_temp, &c_temp);
+
+        struct coef eqParam = {0, 0, 0};
+        coef_count = scanf("%lg %lg %lg", &eqParam.a, &eqParam.b, &eqParam.c);
 
         if (coef_count == 3) {
-            struct coef eqParam;
-            eqParam.a = a_temp;
-            eqParam.b = b_temp;
-            eqParam.c = c_temp;
 
             return eqParam;
         }
@@ -83,7 +80,7 @@ int main() {
 
     printf("# ПОЖАЛУЙСТА ВВЕДИ КОЭФФИЦИЕНТЫ\n");
 
-    struct coef eqParam = CoefRead();
+    struct coef eqParam = coef_read();
 
 
     printf("# МЫ СПРАВИЛИСЬ \n a = %lg\n b = %lg\n c = %lg\n", eqParam.a, eqParam.b, eqParam.c);
@@ -111,6 +108,8 @@ int main() {
         default:        printf("# МЫ НАПОРТАЧИЛИ\n");
                         break;
     }
+
+    return 0;
 }
 
 
