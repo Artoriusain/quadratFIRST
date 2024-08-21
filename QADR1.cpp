@@ -16,6 +16,13 @@
 //! returns INF_ROOTS.
 //-------------------------------------------------------------
 
+struct coef {
+    double a;
+    double b;
+    double c;
+};
+
+
 enum RootNumber {
     ZERO_ROOTS = 0,
     ONE        = 1,
@@ -23,52 +30,67 @@ enum RootNumber {
     INF_ROOTS  = 3,
 };
 
-RootNumber square_solve(double a, double b, double c, double *x1, double *x2) {
-    double D = b*b - 4*a*c;
 
-    if (a == 0 && b == 0) {
+RootNumber square_solve(struct coef coefficient, double *x1, double *x2) {
+    double D = coefficient.b*coefficient.b - 4*coefficient.a*coefficient.c;
+
+    if (coefficient.a == 0 && coefficient.b == 0) {
         return INF_ROOTS;
-}
-    if (a == 0 && b != 0) {
-        *x1 = -c/b;
+    }
+    if (coefficient.a == 0 && coefficient.b != 0) {
+        *x1 = -coefficient.c/coefficient.b;
         return ONE;
-}
+    }
     if (D < 0) {
         return ZERO_ROOTS;
-}
+    }
     double root_D = sqrt(D);
-    *x1 = (-b + root_D)/(2*a);
-    *x2 = (-b - root_D)/(2*a);
+    *x1 = (-coefficient.b + root_D)/(2*coefficient.a);
+    *x2 = (-coefficient.b - root_D)/(2*coefficient.a);
 
     if (*x1 == *x2) {
         return ONE;
-}
+    }
     return TWO;
 }
 
 
-int main() {
-    double a = 0, b = 0, c = 0;
+struct coef CoefRead() {
+
     int coef_count = 0;
+    char cur_ch = 0;
+    double a_temp = 0, b_temp = 0, c_temp = 0;
+    while(1) {
+        double a_temp = 0, b_temp = 0, c_temp = 0;
+        coef_count = scanf("%lg %lg %lg", &a_temp, &b_temp, &c_temp);
+
+        if (coef_count == 3) {
+            struct coef eqParam;
+            eqParam.a = a_temp;
+            eqParam.b = b_temp;
+            eqParam.c = c_temp;
+
+            return eqParam;
+        }
+        printf("# НЕПРАВИЛЬНО, ПОПРОБУЙ ЕЩЁ РАЗ\n");
+
+        while ((cur_ch = getchar()) != '\n' && cur_ch != EOF) {}
+    }
+}
+
+
+int main() {
 
     printf("# ПОЖАЛУЙСТА ВВЕДИ КОЭФФИЦИЕНТЫ\n");
 
-    while(1) {
-        coef_count = scanf("%lg %lg %lg", &a, &b, &c);
+    struct coef eqParam = CoefRead();
 
-        if (coef_count == 3) {
-            break;
-}
-        printf("НЕПРАВИЛЬНО, ПОПРОБУЙ ЕЩЁ РАЗ\n");
 
-        while ((cur_ch = getchar()) != '\n' && cur_ch != EOF) {}
-}
-
-    printf("# МЫ СПРАВИЛИСЬ \n a = %lg\n b = %lg\n c = %lg\n", a, b, c);
+    printf("# МЫ СПРАВИЛИСЬ \n a = %lg\n b = %lg\n c = %lg\n", eqParam.a, eqParam.b, eqParam.c);
 
     double x1 = 0, x2 = 0;
 
-    RootNumber root_count = square_solve(a, b, c, &x1, &x2);
+    RootNumber root_count = square_solve(eqParam, &x1, &x2);
 
     switch(root_count) {
 
@@ -88,11 +110,7 @@ int main() {
 
         default:        printf("# МЫ НАПОРТАЧИЛИ\n");
                         break;
-
-}
-
-
-
+    }
 }
 
 
