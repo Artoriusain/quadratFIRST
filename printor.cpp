@@ -1,6 +1,9 @@
 #include <math.h>
 #include <stdio.h>
-#include "kvad.h"
+#include "printor.h"
+#include "enum_printCode.h"
+#include "struct_coef.h"
+
 
 void big_printor(printCode printCode_temp) {                                 // prints prompts through printCode     
 

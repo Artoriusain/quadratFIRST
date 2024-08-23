@@ -1,5 +1,6 @@
 #include <stdio.h>
-#include "kvad.h"
+#include "input.h"
+#include "struct_coef.h"                    
 
 void stdin_cls(void) {                                                      // input cleanse                        
     int cur_ch = 0;
@@ -19,3 +20,6 @@ struct coef coef_read(void) {                                               // r
 
     return eqParam;
 }
+
+
+// todo new scanf

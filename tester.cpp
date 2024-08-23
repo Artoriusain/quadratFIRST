@@ -1,9 +1,18 @@
+
 #include <stdio.h>
 #include <assert.h>
-#include "kvad.h"
+
+// todo alphabetic order
+
+#include "tester.h"
+#include "printor.h"
+#include "mymath.h"
+#include "struct_coef.h"
+#include "enum_printCode.h"
+#include "input.h"
 
 void tester(void) {                                 // TESTS THE SHIT OUT OF ME
-    
+
     struct testVal {
     double    a;
     double    b;
@@ -12,42 +21,60 @@ void tester(void) {                                 // TESTS THE SHIT OUT OF ME
     double    exp_root2;
     printCode exp_out;
     };
-                                                                    //todo scan 69e420, isfinite, irrational_drobi
-    struct testVal tests[] = {
-        {0, 0, 0, 0, 0, INF_ROOTS},             //0
-        {0, 4, 8, -2, -2, ONE_ROOT},            //1
-        {0, 0, 69420, 0, 0, ZERO_ROOTS},        //2
-        {1, 1, -6, -3, 2, TWO_ROOTS},           //3
-        {1, 1, 1, 0, 0, ZERO_ROOTS},            //4
-        {-1, 0, 4, -2, 2, TWO_ROOTS},           //5
-        {4, -1, -0.5, -0.25, 0.5, TWO_ROOTS},   //6
-    };
-    struct coef test_coefs {};
-    int array_len = sizeof(tests) / sizeof(struct testVal);
-    int error = 0;
-    int test_element = 0;
+                                                                    //todo scan isfinite, irrational_drobi
 
-    for (test_element = 0; test_element < array_len; test_element++) {
-        test_coefs.a = tests[test_element].a;
-        test_coefs.b = tests[test_element].b;
-        test_coefs.c = tests[test_element].c;
-        int test_out = square_solve(test_coefs);
-        
-        if (test_out != tests[test_element].exp_out) {
-            error = 1;
-            big_printor(ERR_TESTELEM);
-            printf("%d \nFunction output: %d \n Expected: %d \n", test_element, test_out, tests[test_element].exp_out);
+
+    FILE *file_pointer = fopen("testcases.txt", "r");
+
+        int strnum = 0;
+        int token_print_code = 0;
+        int file_scan_res = 0;
+        int error = 0;
+        int test_element = 0;
+        struct coef test_coefs {};
+        struct testVal file_tests {};
+
+        do {
+            file_scan_res = fscanf(file_pointer, "%lg %lg %lg %lg %lg %d", &file_tests.a, &file_tests.b, &file_tests.c, &file_tests.exp_root1,
+            &file_tests.exp_root2, &token_print_code);
+            switch(token_print_code) {
+                case 0:  file_tests.exp_out = ZERO_ROOTS;
+                         break;
+                case 1:  file_tests.exp_out = ONE_ROOT;
+                         break;
+                case 2:  file_tests.exp_out = TWO_ROOTS;
+                         break;
+                case 3:  file_tests.exp_out = INF_ROOTS;
+                         break;
+                default: break;
+            }
+            strnum++;
+
+            test_coefs.a = file_tests.a;
+            test_coefs.b = file_tests.b;
+            test_coefs.c = file_tests.c;
+
+            int test_out = square_solve(test_coefs);
+
+            if (test_out != file_tests.exp_out) {
+                error = 1;
+                big_printor(ERR_TESTELEM);
+                printf("%d \nFunction output: %d \n Expected: %d \n", test_element, test_out, file_tests.exp_out);
+            }
+            if ((double_eq_check(test_coefs.x1, file_tests.exp_root1) == 0 || double_eq_check(test_coefs.x2, file_tests.exp_root2) == 0) &&
+                (double_eq_check(test_coefs.x1, file_tests.exp_root2) == 0 || double_eq_check(test_coefs.x2, file_tests.exp_root1) == 0)) {
+                error = 1;
+                big_printor(ERR_ROOTS);
+                printf("%d \nFunction output: %g %g \n Expected: %g %g \n", test_element, test_coefs.x1, test_coefs.x2, file_tests.exp_root1, file_tests.exp_root2);
+            }
+            test_coefs.x1 = 0;
+            test_coefs.x2 = 0;
+
+            if (error == 1) {
+                exit(1);
+            }
         }
-        if ((double_eq_check(test_coefs.x1, tests[test_element].exp_root1) == 0 || double_eq_check(test_coefs.x2, tests[test_element].exp_root2) == 0) && 
-            (double_eq_check(test_coefs.x1, tests[test_element].exp_root2) == 0 || double_eq_check(test_coefs.x2, tests[test_element].exp_root1) == 0)) {
-            error = 1;
-            big_printor(ERR_ROOTS);
-            printf("%d \nFunction output: %g %g \n Expected: %g %g \n", test_element, test_coefs.x1, test_coefs.x2, tests[test_element].exp_root1, tests[test_element].exp_root2);
-        }
-        test_coefs.x1 = 0;
-        test_coefs.x2 = 0;
-    }
-    if (error == 1) {
-        exit(1);
-    }
+        while (file_scan_res != -1);
+
+    fclose(file_pointer);
 }

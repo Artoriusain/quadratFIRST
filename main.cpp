@@ -1,5 +1,10 @@
 #include <stdio.h>
-#include "kvad.h"
+#include "enum_printCode.h"
+#include "struct_coef.h"
+#include "printor.h"
+#include "input.h"
+#include "mymath.h"
+#include "tester.h"
 
 int main() {
 
