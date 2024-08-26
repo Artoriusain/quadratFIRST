@@ -2,7 +2,7 @@
 #include <assert.h>
 #include <stdio.h>
 
-
+#include "enum_errCode.h"
 #include "enum_printCode.h"
 #include "input.h"
 #include "mymath.h"
@@ -11,7 +11,7 @@
 #include "tester.h"
 
 
-int tester(void) { // TESTS THE SHIT OUT OF ME
+errCode tester(void) { // TESTS THE SHIT OUT OF ME
 
 
     FILE *file_pointer = fopen("testcases.txt", "r");
@@ -62,12 +62,12 @@ int tester(void) { // TESTS THE SHIT OUT OF ME
 
             if (error == 1) {
                 fclose(file_pointer);
-                return 1;
+                return YES_ERRORS;
             }
         }
         while (file_scan_res != EOF);
 
     fclose(file_pointer);
 
-    return 0;
+    return NO_ERRORS;
 }

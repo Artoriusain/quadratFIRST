@@ -10,6 +10,6 @@ struct testVal {
     printCode exp_out;
 };
 
-int tester(void);
+errCode tester(void);
 
 #endif //TESTER_H

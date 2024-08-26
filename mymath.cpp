@@ -6,7 +6,8 @@
 
 printCode square_solve(struct squareEquation *coefficient) { // ax^2 + bx + c = 0 solver
 
-    assert(isnan(coefficient->a) == 0 && isnan(coefficient->b) == 0 && isnan(coefficient->c) == 0);
+    assert(isnan(coefficient->a) == 0 && isnan(coefficient->b) == 0 && isnan(coefficient->c) == 0 &&
+           isnan(coefficient->x1) == 0 && isnan(coefficient->x2) == 0);
 
     coefficient->x1 = 0;
     coefficient->x2 = 0;

@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+#include "enum_errCode.h"
 #include "enum_printCode.h"
 #include "input.h"
 #include "mymath.h"
@@ -22,9 +23,9 @@ int main() {
     double x1 = 0, x2 = 0;
 
     int err_code = tester();
-    if (err_code == 1 ) { // test error check
+    if (err_code == YES_ERRORS) { // test error check
         printf("ERROR: TESTS FAILED\n");
-        return 1;
+        return YES_ERRORS;
     }
 
     printf("# ПОЖАЛУЙСТА ВВЕДИ КОЭФФИЦИЕНТЫ\n");
@@ -39,5 +40,5 @@ int main() {
     big_printor(root_count);
     print_sq_solutions(root_count, eqParam);
 
-    return 0;
+    return NO_ERRORS;
 }
