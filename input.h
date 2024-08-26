@@ -1,7 +1,9 @@
-#ifndef INPUT_H // todo newline
-#define PRINTOR_H
-#include "struct_coef.h"
+#ifndef INPUT_H
+#define INPUT_H
 
-struct coef coef_read(void);
+#include "struct_sq_equation.h"
+
+struct squareEquation coef_read(void);
 void stdin_cls(void);
-#endif
+
+#endif //INPUT_H

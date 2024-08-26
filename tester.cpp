@@ -1,42 +1,32 @@
 
-#include <stdio.h>
 #include <assert.h>
+#include <stdio.h>
 
-// todo alphabetic order
 
-#include "tester.h"
-#include "printor.h"
-#include "mymath.h"
-#include "struct_coef.h"
 #include "enum_printCode.h"
 #include "input.h"
+#include "mymath.h"
+#include "printor.h"
+#include "struct_sq_equation.h"
+#include "tester.h"
 
-void tester(void) {                                 // TESTS THE SHIT OUT OF ME
 
-    struct testVal {
-    double    a;
-    double    b;
-    double    c;
-    double    exp_root1;
-    double    exp_root2;
-    printCode exp_out;
-    };
-                                                                    //todo scan isfinite, irrational_drobi
+int tester(void) { // TESTS THE SHIT OUT OF ME
 
 
     FILE *file_pointer = fopen("testcases.txt", "r");
 
-        int strnum = 0;
         int token_print_code = 0;
         int file_scan_res = 0;
-        int error = 0;
+        short error = 0;
         int test_element = 0;
-        struct coef test_coefs {};
+        struct squareEquation test_coefs {};
         struct testVal file_tests {};
 
         do {
             file_scan_res = fscanf(file_pointer, "%lg %lg %lg %lg %lg %d", &file_tests.a, &file_tests.b, &file_tests.c, &file_tests.exp_root1,
-            &file_tests.exp_root2, &token_print_code);
+                                                                           &file_tests.exp_root2, &token_print_code);
+
             switch(token_print_code) {
                 case 0:  file_tests.exp_out = ZERO_ROOTS;
                          break;
@@ -48,13 +38,12 @@ void tester(void) {                                 // TESTS THE SHIT OUT OF ME
                          break;
                 default: break;
             }
-            strnum++;
 
             test_coefs.a = file_tests.a;
             test_coefs.b = file_tests.b;
             test_coefs.c = file_tests.c;
 
-            int test_out = square_solve(test_coefs);
+            int test_out = square_solve(&test_coefs);
 
             if (test_out != file_tests.exp_out) {
                 error = 1;
@@ -65,16 +54,20 @@ void tester(void) {                                 // TESTS THE SHIT OUT OF ME
                 (double_eq_check(test_coefs.x1, file_tests.exp_root2) == 0 || double_eq_check(test_coefs.x2, file_tests.exp_root1) == 0)) {
                 error = 1;
                 big_printor(ERR_ROOTS);
-                printf("%d \nFunction output: %g %g \n Expected: %g %g \n", test_element, test_coefs.x1, test_coefs.x2, file_tests.exp_root1, file_tests.exp_root2);
+                printf("%d \nFunction output: %g %g \n Expected: %g %g \n", test_element, test_coefs.x1, test_coefs.x2,
+                                                                            file_tests.exp_root1, file_tests.exp_root2);
             }
             test_coefs.x1 = 0;
             test_coefs.x2 = 0;
 
             if (error == 1) {
-                exit(1);
+                fclose(file_pointer);
+                return 1;
             }
         }
-        while (file_scan_res != -1);
+        while (file_scan_res != EOF);
 
     fclose(file_pointer);
+
+    return 0;
 }

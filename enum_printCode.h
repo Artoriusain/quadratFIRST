@@ -8,6 +8,7 @@ enum printCode {
     INF_ROOTS    = 3,
     ERR_TESTELEM = 4,
     ERR_ROOTS    = 5,
-};  
+    INP_ERROR    = 6,
+};
 
-#endif 
+#endif // ENUM_PRINTCODE_H
